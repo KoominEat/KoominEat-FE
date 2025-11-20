@@ -109,12 +109,22 @@
   }
 }
 
+html,
+body {
+  padding: 0;
+  margin: 0;
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
 }
 
 @theme inline {
+  --color-main: #00593a;
+  --color-gray-g2: #e9ebed;
+  --color-gray-g5: #9fa4a9;
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
@@ -129,11 +139,7 @@
 }
 
 body {
-  background-color: #f5f0e6; /* 베이지색 */
+  background-color: #f5f0e6;
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-:root {
-  --font-sans: "Sweet", sans-serif;
+  font-family: "Sweet", sans-serif;
 }

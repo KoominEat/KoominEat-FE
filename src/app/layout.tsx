@@ -1,16 +1,6 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+import Navigation from "@/components/Navigation";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -24,9 +14,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ko">
-      <body className="flex justify-center">
-        <div className="w-full max-w-[480px] min-h-screen bg-white shadow-md">
-          {children}
+      <body className="bg-gray-g2 m-0 p-0 flex justify-center">
+        <div className="flex flex-col w-full max-w-[480px] min-h-screen bg-white shadow-md overflow-hidden">
+          <div className="flex-1 overflow-y-auto px-4">{children}</div>
+          <Navigation />
         </div>
       </body>
     </html>
