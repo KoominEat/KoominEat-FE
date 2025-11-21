@@ -26,7 +26,8 @@ const Button = ({
         {
           // ✨ Variant 스타일
           "bg-main text-white hover:bg-main/90": variant === "primary",
-          "bg-white text-main hover:bg-main/30": variant === "ghost",
+          "bg-white text-main hover:bg-main/30 outline outline-1 outline-main":
+            variant === "ghost",
           "bg-gray-g4 cursor-not-allowed": variant === "disabled",
         },
         className
