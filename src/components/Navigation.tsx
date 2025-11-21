@@ -22,7 +22,7 @@ const Navigation = () => {
       <div
         className={cn(
           "flex flex-col items-center cursor-pointer gap-0.5",
-          pathname === "/store" ? "text-main" : ""
+          pathname === "/map" ? "text-main" : ""
         )}
       >
         <MapPin />
