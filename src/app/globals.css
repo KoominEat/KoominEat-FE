@@ -127,6 +127,7 @@ body {
   --color-gray-g4: #cacdd2;
   --color-gray-g5: #9fa4a9;
   --color-gray-g6: #464c52;
+  --color-gray-g6: #26282b;
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);

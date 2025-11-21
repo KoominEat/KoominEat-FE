@@ -3,18 +3,28 @@ import { Input as ShadInput } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 
 interface CommonInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+  variant?: "default" | "ghost";
   error?: string;
   rightIcon?: React.ReactNode;
 }
 
-const Input = ({ error, rightIcon, className, ...props }: CommonInputProps) => {
+const Input = ({
+  variant = "default",
+  error,
+  rightIcon,
+  className,
+  ...props
+}: CommonInputProps) => {
   return (
     <div className="flex flex-col gap-1 w-full">
       <div className="relative w-full">
         <ShadInput
           className={cn(
-            "h-11 rounded-2xl bg-gray-g1-5 border-none pr-10 px-4",
-            className
+            "h-11 rounded-2xl  pr-10 px-4",
+            className,
+            variant === "ghost"
+              ? "border border-main bg-white"
+              : "bg-gray-g1-5 border-none"
           )}
           {...props}
         />
