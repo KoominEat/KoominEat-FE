@@ -4,87 +4,68 @@ import BottomSheet from "@/components/common/BottomSheet";
 import Input from "@/components/common/Input";
 import Select from "@/components/common/Select";
 import Header from "@/components/Header";
-import { MapPin, MapPinned, Pin, Search } from "lucide-react";
+import { MapPin, MapPinned, Search } from "lucide-react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { getStores } from "@/lib/api/store/store";
+import { getCategoryId, Store } from "@/types/store.type";
 
-const data = [
-  {
-    id: 1,
-    name: "카페 미르",
-    location: "북악관 1층",
-    category: "카페",
-  },
-  {
-    id: 2,
-    name: "버거스팟",
-    location: "창공관 2층",
-    category: "햄버거",
-  },
-  {
-    id: 3,
-    name: "달콤한 빵집",
-    location: "예지관 지하1층",
-    category: "빵",
-  },
-  {
-    id: 4,
-    name: "한끼든든분식",
-    location: "명상관 1층",
-    category: "분식/식사",
-  },
-  {
-    id: 5,
-    name: "그린샐러드랩",
-    location: "창공관 3층",
-    category: "샐러드/샌드위치",
-  },
-  {
-    id: 6,
-    name: "라떼하우스",
-    location: "비전관 2층",
-    category: "카페",
-  },
-  {
-    id: 7,
-    name: "킹버거",
-    location: "새빛관 1층",
-    category: "햄버거",
-  },
-  {
-    id: 8,
-    name: "굽는향기",
-    location: "드림관 1층",
-    category: "빵",
-  },
-  {
-    id: 9,
-    name: "오늘의식사",
-    location: "늘빛관 2층",
-    category: "분식/식사",
-  },
-  {
-    id: 10,
-    name: "샐러드바잇",
-    location: "창공관 1층",
-    category: "샐러드/샌드위치",
-  },
+const categories = [
+  "전체",
+  "카페",
+  "햄버거",
+  "빵",
+  "분식/식사",
+  "샐러드/샌드위치",
 ];
 
-export const categoryImages: Record<string, string> = {
-  카페: "/image-coffee.png",
-  햄버거: "/image-hamburger.png",
-  빵: "/image-bread.png",
-  "분식/식사": "/image-gimbob.png",
-  "샐러드/샌드위치": "/image-salad.png",
-};
+// 핀 데이터 (locationId와 위치 매핑)
+const pins = [
+  { locationId: 7, name: "성곡도서관", top: "3%", left: "4%" },
+  { locationId: 6, name: "공학관", top: "25%", left: "8%" },
+  { locationId: 1, name: "본부관", top: "25%", left: "55%" },
+  { locationId: 3, name: "법학관", top: "35%", left: "70%" },
+  { locationId: 2, name: "북악관", top: "10%", left: "52%" },
+  { locationId: 8, name: "과학관", top: "25%", left: "90%" },
+  { locationId: 5, name: "복지관", top: "60%", left: "35%" },
+];
 
 const Map = () => {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("all");
+  const searchParams = useSearchParams();
+  const urlCategory = searchParams.get("category");
+
   const [open, setOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [category, setCategory] = useState("전체");
+  const [locationId, setLocationId] = useState<number | null>(null);
+  const [stores, setStores] = useState<Store[]>([]);
+
   const router = useRouter();
+
+  // category가 변할 때마다 API 호출
+  useEffect(() => {
+    const load = async () => {
+      const categoryId =
+        category === "전체" ? undefined : getCategoryId(category);
+      const result = await getStores(categoryId, locationId ?? undefined);
+      setStores(result);
+    };
+
+    load();
+  }, [category, locationId]);
+
+  // 핀 클릭 핸들러 - 카테고리는 그대로 유지
+  const handlePinClick = (locId: number) => {
+    setLocationId(locId);
+    setCategory("전체"); // 드롭다운 전체로
+    setOpen(true);
+  };
+
+  // 드롭다운 변경 - locationId도 그대로 유지
+  const handleCategoryChange = (value: string) => {
+    setCategory(value);
+  };
 
   return (
     <div className="flex flex-col gap-3 min-h-[calc(100vh-84px)]">
@@ -112,14 +93,18 @@ const Map = () => {
           className="w-full h-auto rounded-2xl"
         />
 
-        <Image
-          src="/pin.png"
-          alt="Pin"
-          width={37}
-          height={37}
-          className="absolute top-[41.66%] left-[15%] cursor-pointer"
-          onClick={() => setOpen(true)}
-        />
+        {pins.map((pin) => (
+          <Image
+            key={pin.locationId}
+            src="/pin.png"
+            alt={pin.name}
+            width={30}
+            height={30}
+            className="absolute cursor-pointer"
+            style={{ top: pin.top, left: pin.left }}
+            onClick={() => handlePinClick(pin.locationId)}
+          />
+        ))}
       </div>
 
       <div className="flex flex-1 flex-col items-center justify-center gap-2 text-gray-g4 font-semibold">
@@ -127,52 +112,44 @@ const Map = () => {
         <p>지도의 핀을 클릭해보세요!</p>
       </div>
 
-      {/* 매장 검색 결과 */}
+      {/* BottomSheet */}
       <BottomSheet open={open} onClose={() => setOpen(false)}>
         <Select
-          options={[
-            { label: "전체", value: "all" },
-            { label: "카페", value: "cafe" },
-            { label: "햄버거", value: "hamburger" },
-            { label: "빵", value: "bread" },
-            { label: "분식/식사", value: "snack" },
-            { label: "샐러드/샌드위치", value: "salad_sandwich" },
-          ]}
+          options={categories.map((c) => ({ label: c, value: c }))}
           className="ml-2"
-          value={selectedCategory}
-          onValueChange={(value: string) => setSelectedCategory(value)}
+          value={category}
+          onValueChange={handleCategoryChange}
         />
 
         <div className="overflow-y-auto max-h-[55vh] mt-4 px-2">
-          {data.map(
-            (item, index) =>
-              (selectedCategory === "all" ||
-                item.category.toLowerCase() ===
-                  selectedCategory.toLowerCase()) && (
-                <div
-                  key={index}
-                  className="flex justify-between items-center px-4 py-3 border rounded-2xl hover:bg-gray-100 cursor-pointer mb-3"
-                  onClick={() => router.push(`/map/${item.id}`)}
-                >
-                  <div>
-                    <h3 className="text-lg font-semibold mb-0.5">
-                      {item.name}
-                    </h3>
-                    <p className="text-gray-600 text-sm flex gap-1 items-center font-semibold">
-                      <MapPin size={16} />
-                      {item.location}
-                    </p>
-                  </div>
-
-                  <Image
-                    src={categoryImages[item.category]}
-                    alt={`category image for ${item.category}`}
-                    width={40}
-                    height={40}
-                    onClick={() => setOpen(true)}
-                  />
+          {stores.length === 0 ? (
+            <div className="flex flex-col items-center justify-center py-10 text-gray-g4">
+              <MapPin size={40} />
+              <p className="mt-2 font-semibold">해당 조건의 매장이 없습니다</p>
+            </div>
+          ) : (
+            stores.map((store) => (
+              <div
+                key={store.storeId}
+                className="flex justify-between items-center px-4 py-3 border rounded-2xl hover:bg-gray-100 cursor-pointer mb-3"
+                onClick={() => router.push(`/map/${store.storeId}`)}
+              >
+                <div>
+                  <h3 className="text-lg font-semibold mb-0.5">{store.name}</h3>
+                  <p className="text-gray-600 text-sm flex gap-1 items-center font-semibold">
+                    <MapPin size={16} />
+                    {store.locationName}
+                  </p>
                 </div>
-              )
+
+                <Image
+                  src={store.image || "/default.png"}
+                  alt={store.name}
+                  width={40}
+                  height={40}
+                />
+              </div>
+            ))
           )}
         </div>
       </BottomSheet>

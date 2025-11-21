@@ -46,7 +46,10 @@ const Main = () => {
       </div>
 
       <div className="grid grid-cols-[1.5fr_1fr_1fr] gap-2">
-        <div className={`row-span-2 ${cardClass}`}>
+        <div
+          className={`row-span-2 ${cardClass}`}
+          onClick={() => router.push("/map?category=카페")}
+        >
           <Image
             src="/image-coffee.png"
             alt="카페"
@@ -57,7 +60,10 @@ const Main = () => {
           <p className="text-center font-bold text-lg">카페</p>
         </div>
 
-        <div className={cardClass}>
+        <div
+          className={cardClass}
+          onClick={() => router.push("/map?category=햄버거")}
+        >
           <Image
             src="/image-hamburger.png"
             alt="햄버거"
@@ -68,7 +74,10 @@ const Main = () => {
           <p className="text-center text-sm font-bold">햄버거</p>
         </div>
 
-        <div className={cardClass}>
+        <div
+          className={cardClass}
+          onClick={() => router.push("/map?category=빵")}
+        >
           <Image
             src="/image-bread.png"
             alt="빵"
@@ -79,7 +88,10 @@ const Main = () => {
           <p className="text-center text-sm font-bold">빵</p>
         </div>
 
-        <div className={cardClass}>
+        <div
+          className={cardClass}
+          onClick={() => router.push("/map?category=분식/식사")}
+        >
           <Image
             src="/image-gimbob.png"
             alt="분식/식사"
@@ -92,7 +104,10 @@ const Main = () => {
           </p>
         </div>
 
-        <div className={cardClass}>
+        <div
+          className={cardClass}
+          onClick={() => router.push("/map?category=샐러드/샌드위치")}
+        >
           <Image
             src="/image-salad.png"
             alt="샐러드/샌드위치"
