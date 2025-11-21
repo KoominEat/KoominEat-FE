@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 const Navigation = () => {
   const pathname = usePathname();
 
-  if (pathname === "/cart") return null;
+  if (pathname === "/cart" || pathname === "/pay") return null;
 
   return (
     <div className="flex justify-around pt-3 h-[84px] border-t border-gray-g2 text-gray-g5">

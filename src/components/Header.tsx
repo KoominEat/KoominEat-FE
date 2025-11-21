@@ -36,7 +36,9 @@ const Header = ({
       <ChevronLeft
         className={cn(
           "absolute left-0 cursor-pointer",
-          pathname.startsWith("/map/") || pathname === "/cart"
+          pathname.startsWith("/map/") ||
+            pathname === "/cart" ||
+            pathname === "/pay"
             ? ""
             : "invisible"
         )}
@@ -49,13 +51,13 @@ const Header = ({
       <div
         className={cn(
           "relative ml-auto",
-          pathname.startsWith("/cart") ? "invisible" : ""
+          pathname.startsWith("/cart") || pathname === "/pay" ? "invisible" : ""
         )}
       >
         <ShoppingCart size={22} className="cursor-pointer" />
 
         {itemCount > 0 && (
-          <span className="absolute -bottom-1 -right-1 bg-[#00593A] text-white text-[10px] w-4 h-4 flex items-center justify-center rounded-full">
+          <span className="absolute -bottom-1 -right-1 bg-main text-white text-[10px] w-4 h-4 flex items-center justify-center rounded-full">
             {itemCount}
           </span>
         )}
