@@ -1,6 +1,6 @@
-import { ArrowRightLeft, ShoppingCart } from "lucide-react";
+import Header from "@/components/Header";
+import { ArrowRightLeft } from "lucide-react";
 import Image from "next/image";
-import React from "react";
 
 const Main = () => {
   const cardClass =
@@ -8,13 +8,7 @@ const Main = () => {
 
   return (
     <div className="flex flex-col gap-3">
-      <div className="relative flex items-center h-[58px] mt-4">
-        <h1 className="absolute left-1/2 -translate-x-1/2 text-[#26282B] text-lg font-bold">
-          로고
-        </h1>
-
-        <ShoppingCart className="absolute right-4 cursor-pointer" />
-      </div>
+      <Header title="로고" />
 
       <div className="flex">
         <span className="flex items-center gap-2 text-white font-bold px-4 py-3 bg-main rounded-full cursor-pointer hover:bg-[#004c31] transition duration-300">
@@ -22,12 +16,12 @@ const Main = () => {
         </span>
       </div>
 
-      <div className="relative w-full h-[300px] rounded-2xl overflow-hidden mb-4">
+      <div className="relative w-full h-[212px] rounded-2xl overflow-hidden mb-4">
         <Image
           src="/main_image.jpg"
           alt="Main Image"
           fill
-          className="object-cover"
+          className="object-cover "
           priority
         />
 
@@ -42,14 +36,14 @@ const Main = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-[1.4fr_1fr_1fr] gap-3">
+      <div className="grid grid-cols-[1.5fr_1fr_1fr] gap-2">
         <div className={`row-span-2 ${cardClass}`}>
           <Image
             src="/image-coffee.png"
             alt="카페"
-            width={100}
-            height={100}
-            className="w-30 h-30 object-contain mb-3"
+            width={120}
+            height={120}
+            className="w-30 h-30 object-contain mb-2"
           />
           <p className="text-center font-bold text-lg">카페</p>
         </div>
@@ -62,7 +56,7 @@ const Main = () => {
             height={80}
             className="w-14 h-14 object-contain mb-2"
           />
-          <p className="text-center text-sm font-medium">햄버거</p>
+          <p className="text-center text-sm font-bold">햄버거</p>
         </div>
 
         <div className={cardClass}>
@@ -73,7 +67,7 @@ const Main = () => {
             height={80}
             className="w-14 h-14 object-contain mb-2"
           />
-          <p className="text-center text-sm font-medium">빵</p>
+          <p className="text-center text-sm font-bold">빵</p>
         </div>
 
         <div className={cardClass}>
@@ -84,7 +78,9 @@ const Main = () => {
             height={80}
             className="w-14 h-14 object-contain mb-2"
           />
-          <p className="text-center text-sm font-medium">분식/식사</p>
+          <p className="text-center text-sm font-bold whitespace-nowrap">
+            분식/식사
+          </p>
         </div>
 
         <div className={cardClass}>
@@ -95,7 +91,7 @@ const Main = () => {
             height={80}
             className="w-14 h-14 object-contain mb-2"
           />
-          <p className="text-center text-sm font-medium whitespace-nowrap">
+          <p className="text-center text-sm font-bold whitespace-nowrap">
             샐러드/샌드위치
           </p>
         </div>
