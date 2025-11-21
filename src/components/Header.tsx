@@ -51,7 +51,12 @@ const Header = ({
       <div
         className={cn(
           "relative ml-auto",
-          pathname.startsWith("/cart") || pathname === "/pay" ? "invisible" : ""
+          pathname.startsWith("/cart") ||
+            pathname === "/pay" ||
+            pathname === "/courier" ||
+            pathname === "/request-accept"
+            ? "invisible"
+            : ""
         )}
       >
         <ShoppingCart size={22} className="cursor-pointer" />

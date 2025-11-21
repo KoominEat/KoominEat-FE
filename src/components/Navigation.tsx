@@ -10,7 +10,8 @@ const Navigation = () => {
   if (
     pathname === "/cart" ||
     pathname === "/pay" ||
-    pathname === "/order-completed"
+    pathname === "/order-completed" ||
+    pathname === "/request-accept"
   )
     return null;
 
