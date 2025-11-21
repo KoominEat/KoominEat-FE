@@ -19,7 +19,13 @@ export const Categories: Category[] = [
   { id: 5, name: "샐러드/샌드위치" },
 ];
 
-// 카테고리 이름으로 ID 가져오기
 export const getCategoryId = (name: string): number | undefined => {
   return Categories.find((c) => c.name === name)?.id;
 };
+
+export interface MenuItem {
+  id: number;
+  name: string;
+  price: number;
+  image: string;
+}

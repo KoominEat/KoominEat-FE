@@ -37,7 +37,7 @@ const Navigation = () => {
           href="/map"
           className={cn(
             "flex flex-col items-center cursor-pointer gap-0.5",
-            pathname === "/map" ? "text-main" : ""
+            pathname.startsWith("/map") ? "text-main" : ""
           )}
         >
           <MapPin />
