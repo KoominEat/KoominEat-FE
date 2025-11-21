@@ -34,7 +34,7 @@ const Cart = () => {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="">
+    <div>
       <Header title="장바구니" />
 
       <div>
@@ -45,7 +45,7 @@ const Cart = () => {
           </p>
         </div>
 
-        <div className="w-full h-[23vh] overflow-y-auto">
+        <div className="w-full">
           {sampleStore.menu.map((item, index) => (
             <div
               key={index}
@@ -176,8 +176,8 @@ const Cart = () => {
               </p>
             </div>
 
-            <div className="flex justify-between w-full items-center">
-              <h3 className="text-lg font-semibold mb-0.5 text-gray-g7 mt-3">
+            <div className="flex justify-between w-full items-center mt-3">
+              <h3 className="text-lg font-semibold mb-0.5 text-gray-g7">
                 결제 예정 금액
               </h3>
               <p className="font-semibold text-lg text-gray-g6">
