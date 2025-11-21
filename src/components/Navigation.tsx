@@ -39,7 +39,7 @@ const Navigation = () => {
       <div
         className={cn(
           "flex flex-col items-center cursor-pointer gap-0.5",
-          pathname === "/orders" ? "text-main" : ""
+          pathname === "/order-history" ? "text-main" : ""
         )}
       >
         <FileText />

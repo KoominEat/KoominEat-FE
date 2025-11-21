@@ -8,7 +8,7 @@ import { useLayoutEffect, useState } from "react";
 
 const Header = ({
   title,
-  itemCount = 2,
+  itemCount = 0,
 }: {
   title: string;
   itemCount?: number;
