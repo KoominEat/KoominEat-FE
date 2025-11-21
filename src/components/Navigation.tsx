@@ -12,7 +12,8 @@ const Navigation = () => {
     pathname === "/cart" ||
     pathname === "/pay" ||
     pathname === "/order-completed" ||
-    pathname === "/request-accept"
+    pathname === "/request-accept" ||
+    pathname === "/login"
   )
     return null;
 
