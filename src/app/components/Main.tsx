@@ -1,8 +1,12 @@
+"use client";
+
 import Header from "@/components/Header";
 import { ArrowRightLeft } from "lucide-react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 const Main = () => {
+  const router = useRouter();
   const cardClass =
     "bg-[#F8F8F9] rounded-2xl border border-[#D8DBE0] p-4 flex flex-col items-center justify-center hover:bg-gray-200 cursor-pointer transition duration-300";
 
@@ -11,7 +15,12 @@ const Main = () => {
       <Header title="로고" />
 
       <div className="flex">
-        <span className="flex items-center gap-2 text-white font-bold px-4 py-2 bg-main rounded-full cursor-pointer hover:bg-[#004c31] transition duration-300">
+        <span
+          className="flex items-center gap-2 text-white font-bold px-4 py-2 bg-main rounded-full cursor-pointer hover:bg-[#004c31] transition duration-300"
+          onClick={() => {
+            router.push("/courier/");
+          }}
+        >
           주문자 모드 <ArrowRightLeft size={18} />{" "}
         </span>
       </div>

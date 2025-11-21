@@ -5,6 +5,7 @@ import LayerPopup from "@/components/common/LayerPopup";
 import Header from "@/components/Header";
 import { ArrowRightLeft, MapPin } from "lucide-react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const data = [
@@ -134,6 +135,7 @@ const data = [
 
 const Main = () => {
   const [open, setOpen] = useState(false);
+  const router = useRouter();
 
   return (
     <div className="flex flex-col gap-3">
@@ -141,7 +143,12 @@ const Main = () => {
 
       <div className="h-[calc(100vh-84px-94px)] overflow-y-auto">
         <div className="flex">
-          <span className="flex items-center gap-2 text-white font-bold px-4 py-2 bg-main rounded-full cursor-pointer hover:bg-[#004c31] transition duration-300">
+          <span
+            className="flex items-center gap-2 text-white font-bold px-4 py-2 bg-main rounded-full cursor-pointer hover:bg-[#004c31] transition duration-300"
+            onClick={() => {
+              router.push("/");
+            }}
+          >
             전달자 모드 <ArrowRightLeft size={18} />{" "}
           </span>
         </div>
