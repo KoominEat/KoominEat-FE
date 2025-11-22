@@ -36,7 +36,7 @@ const page = () => {
             주문 내역 보러 가기
           </Button>
         </Link>
-        <Link href={"/"}>
+        <Link href={"/main"}>
           <Button variant="ghost" className="w-full">
             홈으로 가기
           </Button>

@@ -126,8 +126,8 @@ const DeliveredHistory = () => {
 
         {/* 주문 진행 상황 */}
         {requests.length !== 0 && (
-          <div className="-mx-4 mt-auto z-10">
-            <div className="fixed bottom-[84px] left-0 w-full bg-main rounded-t-2xl p-5 text-white z-50">
+          <div className="-mx-4 mt-auto z-10 max-w-[480px] w-full">
+            <div className="fixed bottom-[84px] left-1/2 -translate-x-1/2 w-full max-w-[480px] bg-main rounded-t-2xl p-5 text-white z-50">
               <div className="w-full justify-between flex font-bold text-lg">
                 {hasPreparing ? (
                   <>
