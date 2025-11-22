@@ -56,7 +56,8 @@ const Header = ({
           pathname.startsWith("/cart") ||
             pathname === "/pay" ||
             pathname === "/courier" ||
-            pathname === "/request-accept"
+            pathname === "/request-accept" ||
+            pathname.startsWith("/courier/")
             ? "invisible"
             : ""
         )}
