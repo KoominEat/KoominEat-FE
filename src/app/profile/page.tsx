@@ -1,14 +1,37 @@
+"use client";
+
 import Button from "@/components/common/Button";
 import Header from "@/components/Header";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 
-const page = () => {
+const Page = () => {
+  const [userName, setUserName] = useState("");
+
+  useEffect(() => {
+    const stored = sessionStorage.getItem("user");
+    if (stored) {
+      try {
+        queueMicrotask(() => {
+          try {
+            const user = JSON.parse(stored);
+            setUserName(user.name);
+          } catch (e) {
+            console.error("유저정보 파싱 실패:", e);
+          }
+        });
+      } catch (e) {
+        console.error("유저정보 파싱 실패:", e);
+      }
+    }
+  }, []);
+
   return (
     <div>
       <Header title="마이페이지" />
 
       <p className="text-lg font-bold mt-5">
-        곰팡이님, <br />
+        {userName || "사용자"}님, <br />
         오늘도 국민대학교에서 행복한 하루 되세요.
       </p>
 
@@ -45,4 +68,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

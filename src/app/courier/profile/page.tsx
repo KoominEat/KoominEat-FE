@@ -1,14 +1,33 @@
+"use client";
+
 import Button from "@/components/common/Button";
 import Header from "@/components/Header";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 
-const page = () => {
+const Page = () => {
+  const [userName, setUserName] = useState("");
+
+  useEffect(() => {
+    const stored = sessionStorage.getItem("user");
+    if (!stored) return;
+
+    queueMicrotask(() => {
+      try {
+        const user = JSON.parse(stored);
+        setUserName(user.name);
+      } catch (err) {
+        console.error("유저 정보 파싱 실패:", err);
+      }
+    });
+  }, []);
+
   return (
     <div>
-      <Header title="마이페이지" />
+      <Header title="나의 전달자 정보" />
 
       <p className="text-lg font-bold mt-5">
-        곰팡이님, <br />
+        {userName || "사용자"}님, <br />
         쿠민잇과 함께 따뜻한 마음을 전달해 보세요.
       </p>
 
@@ -39,4 +58,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
