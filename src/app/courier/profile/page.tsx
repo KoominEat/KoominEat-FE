@@ -24,7 +24,7 @@ const Page = () => {
 
   return (
     <div>
-      <Header title="나의 전달자 정보" />
+      <Header title="마이페이지" />
 
       <p className="text-lg font-bold mt-5">
         {userName || "사용자"}님, <br />
