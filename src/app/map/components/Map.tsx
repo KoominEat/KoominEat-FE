@@ -7,7 +7,7 @@ import Header from "@/components/Header";
 import { MapPin, MapPinned, Search } from "lucide-react";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { getStores } from "@/lib/api/store/store";
 import { getCategoryId, Store } from "@/types/store.type";
 
@@ -32,49 +32,55 @@ export const pins = [
 ];
 
 const Map = () => {
+  const router = useRouter();
   const searchParams = useSearchParams();
-  const initialCategory = searchParams.get("category");
 
   const [open, setOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  const [category, setCategory] = useState("전체");
+  const [category, setCategory] = useState<string | null>(null); // 초기값을 null로
   const [locationId, setLocationId] = useState<number | null>(null);
   const [stores, setStores] = useState<Store[]>([]);
 
-  const router = useRouter();
+  const isInitialized = useRef(false);
 
+  // 1. 초기화: URL 파라미터 읽어서 category 설정
   useEffect(() => {
-    const urlCategory = searchParams.get("category") || "전체";
+    if (!isInitialized.current) {
+      const urlCategory = searchParams.get("category") || "전체";
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      setCategory(urlCategory);
+      setOpen(true);
+      isInitialized.current = true;
+    }
+  }, [searchParams]);
 
-    setCategory(urlCategory);
-    setOpen(true);
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // seachparams 제거
-
-  // category가 변할 때마다 API 호출
+  // 2. category가 설정된 후에만 API 호출
   useEffect(() => {
+    // category가 null이면 아직 초기화 안된 것이므로 스킵
+    if (category === null) return;
+
     const load = async () => {
       const categoryId =
         category === "전체" ? undefined : getCategoryId(category);
       const result = await getStores(categoryId, locationId ?? undefined);
       setStores(result);
     };
-
     load();
   }, [category, locationId]);
 
-  // 핀 클릭 핸들러 - 카테고리는 그대로 유지
   const handlePinClick = (locId: number) => {
     setLocationId(locId);
-    setCategory("전체"); // 드롭다운 전체로
+    setCategory("전체");
     setOpen(true);
   };
 
-  // 드롭다운 변경 - locationId도 그대로 유지
   const handleCategoryChange = (value: string) => {
     setCategory(value);
   };
+
+  if (category === null) {
+    return <div className="flex items-center justify-center">로딩 중...</div>;
+  }
 
   return (
     <div className="flex flex-col gap-3 min-h-[calc(100vh-84px)]">
