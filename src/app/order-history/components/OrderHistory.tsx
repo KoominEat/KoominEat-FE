@@ -92,7 +92,7 @@ const OrderHistory = () => {
         <div className="-mx-4 mt-auto z-10">
           <div className="fixed bottom-[84px] left-0 w-full bg-main rounded-t-2xl p-5 text-white z-50">
             <div className="w-full justify-between flex font-bold text-lg">
-              {hasPreparing ? (
+              {false ? (
                 <>
                   <p>
                     메뉴가 완성되었어요!
