@@ -1,5 +1,5 @@
-import Main from "./components/Main";
+import LoginPage from "./login/page";
 
-export default function Home() {
-  return <Main />;
+export default async function Page() {
+  return <LoginPage />;
 }

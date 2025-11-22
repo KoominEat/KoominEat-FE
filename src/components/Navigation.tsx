@@ -21,10 +21,10 @@ const Navigation = () => {
     <div className="flex justify-around pt-3 h-[84px] border-t border-gray-g2 text-gray-g5">
       {/* 홈 */}
       <Link
-        href={pathname.startsWith("/courier") ? "/courier" : "/"}
+        href={pathname.startsWith("/courier") ? "/courier" : "/main"}
         className={cn(
           "flex flex-col items-center cursor-pointer gap-0.5",
-          pathname === "/" || pathname === "/courier" ? "text-main" : ""
+          pathname === "/main" || pathname === "/courier" ? "text-main" : ""
         )}
       >
         <HouseIcon />

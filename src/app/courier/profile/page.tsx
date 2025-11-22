@@ -3,10 +3,12 @@
 import Button from "@/components/common/Button";
 import Header from "@/components/Header";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const Page = () => {
   const [userName, setUserName] = useState("");
+  const router = useRouter();
 
   useEffect(() => {
     const stored = sessionStorage.getItem("user");
@@ -21,6 +23,21 @@ const Page = () => {
       }
     });
   }, []);
+
+  const handleLogout = () => {
+    // 세션 스토리지 전부 삭제
+    sessionStorage.clear();
+
+    // 모든 쿠키 삭제
+    document.cookie.split(";").forEach((cookie) => {
+      document.cookie = cookie
+        .replace(/^ +/, "")
+        .replace(/=.*/, "=;expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/");
+    });
+
+    // 로그인으로 이동
+    router.replace("/login");
+  };
 
   return (
     <div>
@@ -43,7 +60,7 @@ const Page = () => {
         <Button className="w-1/2 mt-5" variant="ghost">
           닉네임 변경
         </Button>
-        <Button className="w-1/2 mt-5" variant="ghost">
+        <Button className="w-1/2 mt-5" variant="ghost" onClick={handleLogout}>
           로그아웃
         </Button>
       </div>

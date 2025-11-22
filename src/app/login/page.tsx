@@ -32,7 +32,7 @@ const LoginPage = () => {
       console.log("유저 정보 저장됨:", user);
 
       // 5) 홈 이동
-      router.push("/");
+      router.push("/main");
     } catch (error) {
       console.error("로그인 오류:", error);
       alert("로그인 중 오류가 발생했습니다.");

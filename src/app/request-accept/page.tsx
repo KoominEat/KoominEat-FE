@@ -48,7 +48,7 @@ const page = () => {
       </div>
 
       <div className="flex flex-col gap-3">
-        <Link href={"/"}>
+        <Link href={"/main"}>
           <Button className="w-full">홈으로 가기</Button>
         </Link>
       </div>

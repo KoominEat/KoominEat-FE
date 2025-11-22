@@ -82,7 +82,7 @@ const Main = () => {
           <span
             className="flex items-center gap-2 text-white font-bold px-4 py-2 bg-main rounded-full cursor-pointer hover:bg-[#004c31] transition duration-300"
             onClick={() => {
-              router.push("/");
+              router.push("/mai");
             }}
           >
             전달자 모드 <ArrowRightLeft size={18} />{" "}
