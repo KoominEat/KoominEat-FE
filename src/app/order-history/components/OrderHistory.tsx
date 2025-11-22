@@ -89,31 +89,33 @@ const OrderHistory = () => {
         </div>
 
         {/* 주문 진행 상황 */}
-        <div className="-mx-4 mt-auto z-10">
-          <div className="fixed bottom-[84px] left-0 w-full bg-main rounded-t-2xl p-5 text-white z-50">
-            <div className="w-full justify-between flex font-bold text-lg">
-              {false ? (
-                <>
-                  <p>
-                    메뉴가 완성되었어요!
-                    <br />
-                    픽업하러 매장으로 와 주세요.
-                  </p>
-                  <CircleCheckBig size={27} className="self-end" />
-                </>
-              ) : (
-                <>
-                  <p>
-                    아직 메뉴를 준비하는 중이에요!
-                    <br />
-                    조금만 기다려 주세요.
-                  </p>
-                  <LoaderCircle size={27} className="self-end rotate-270" />
-                </>
-              )}
+        {orders.length > 0 && (
+          <div className="-mx-4 mt-auto z-10 max-w-[480px] w-full">
+            <div className="fixed bottom-[84px] left-1/2 -translate-x-1/2 w-full max-w-[480px] bg-main rounded-t-2xl p-5 text-white z-50">
+              <div className="w-full justify-between flex font-bold text-lg">
+                {false ? (
+                  <>
+                    <p>
+                      메뉴가 완성되었어요!
+                      <br />
+                      픽업하러 매장으로 와 주세요.
+                    </p>
+                    <CircleCheckBig size={27} className="self-end" />
+                  </>
+                ) : (
+                  <>
+                    <p>
+                      아직 메뉴를 준비하는 중이에요!
+                      <br />
+                      조금만 기다려 주세요.
+                    </p>
+                    <LoaderCircle size={27} className="self-end rotate-270" />
+                  </>
+                )}
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

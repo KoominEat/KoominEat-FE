@@ -116,7 +116,7 @@ const Map = () => {
         ))}
       </div>
 
-      <div className="flex flex-1 flex-col items-center justify-center gap-2 text-gray-g4 font-semibold">
+      <div className="flex flex-1 flex-col items-center justify-center gap-2 text-gray-g4 font-semibold ">
         <MapPinned size={50} />
         <p>지도의 핀을 클릭해보세요!</p>
       </div>

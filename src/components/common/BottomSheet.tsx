@@ -23,7 +23,12 @@ const BottomSheet = ({
         <>
           {/* Bottom Sheet */}
           <motion.div
-            className="fixed left-0 right-0 bottom-0 rounded-t-3xl bg-white z-50 px-2 py-4 shadow-lg"
+            className="
+              fixed bottom-0
+              left-1/2 -translate-x-1/2
+              w-full max-w-[480px]
+              rounded-t-3xl bg-white z-50 px-2 py-4 shadow-lg
+            "
             style={{
               height,
               boxShadow: "0 -8px 20px rgba(0,0,0,0.15)",
