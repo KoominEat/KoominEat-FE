@@ -3,7 +3,7 @@
 import Header from "@/components/Header";
 import {
   DeliveryRequest,
-  getDeliveryRequests,
+  getMyAcceptedDeliveries,
 } from "@/lib/api/delivery/delivery";
 import { cn } from "@/lib/utils";
 import {
@@ -21,7 +21,7 @@ const DeliveredHistory = () => {
   useEffect(() => {
     const fetchRequests = async () => {
       try {
-        const data = await getDeliveryRequests();
+        const data = await getMyAcceptedDeliveries();
         setRequests(data);
       } catch (err) {
         console.error("전달 요청 리스트 로딩 실패:", err);

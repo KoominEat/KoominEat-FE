@@ -43,7 +43,25 @@ export interface DeliveryRequest {
   storeLocationName: string;
 }
 
-export const getDeliveryRequests = async (): Promise<DeliveryRequest[]> => {
-  const res = await api.get("/delivery/requests");
+export const getDeliveryRequests = async (
+  locationId?: number
+): Promise<DeliveryRequest[]> => {
+  const params = new URLSearchParams();
+  if (locationId) params.append("locationId", String(locationId));
+
+  const res = await api.get(
+    `/delivery/requests${params.toString() ? `?${params.toString()}` : ""}`
+  );
   return res.data.data;
 };
+
+export const getMyAcceptedDeliveries = async (): Promise<DeliveryRequest[]> => {
+  const res = await api.get("/delivery/my-accepted");
+  return res.data.data;
+};
+
+export async function acceptDelivery(deliveryId: number) {
+  const res = await api.post(`/delivery/${deliveryId}/accept`);
+
+  return res.data;
+}

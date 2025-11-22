@@ -21,7 +21,7 @@ const categories = [
 ];
 
 // 핀 데이터 (locationId와 위치 매핑)
-const pins = [
+export const pins = [
   { locationId: 7, name: "성곡도서관", top: "3%", left: "4%" },
   { locationId: 6, name: "공학관", top: "25%", left: "8%" },
   { locationId: 1, name: "본부관", top: "25%", left: "55%" },
@@ -33,7 +33,7 @@ const pins = [
 
 const Map = () => {
   const searchParams = useSearchParams();
-  const urlCategory = searchParams.get("category");
+  const initialCategory = searchParams.get("category");
 
   const [open, setOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
@@ -42,6 +42,15 @@ const Map = () => {
   const [stores, setStores] = useState<Store[]>([]);
 
   const router = useRouter();
+
+  useEffect(() => {
+    const urlCategory = searchParams.get("category") || "전체";
+
+    setCategory(urlCategory);
+    setOpen(true);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams]);
 
   // category가 변할 때마다 API 호출
   useEffect(() => {
