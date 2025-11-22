@@ -23,7 +23,7 @@ export interface OrderItemResponse {
 
 export interface OrderHistoryResponse {
   orderId: number;
-  status: "PREPARING" | "READY" | "COMPLETED" | "CANCELLED";
+  status: "PREPARING" | "FINISHED" | "CANCELLED";
   totalPrice: number;
   orderItemResponses: OrderItemResponse[];
   orderType: "DELIVERY" | "PICKUP";

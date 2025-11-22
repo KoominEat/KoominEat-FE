@@ -23,8 +23,14 @@ const OrderHistory = () => {
     };
 
     fetchOrders();
+
+    // 🔁 10초마다 새로고침
+    const interval = setInterval(fetchOrders, 10000);
+
+    return () => clearInterval(interval);
   }, []);
 
+  const hasFinished = orders.some((order) => order.status === "FINISHED");
   const hasPreparing = orders.some((order) => order.status === "PREPARING");
 
   if (loading) {
@@ -59,7 +65,12 @@ const OrderHistory = () => {
             orders.map((order, index) => (
               <div
                 key={order.orderId}
-                className="flex justify-between items-start px-4 py-4 border rounded-2xl mb-2"
+                className={cn(
+                  "flex justify-between items-start px-4 py-4 border rounded-2xl mb-2",
+                  order.status === "FINISHED"
+                    ? "border-gray-400 bg-gray-100"
+                    : "border-main"
+                )}
               >
                 <div>
                   <div className="flex gap-2 mb-2">
@@ -103,12 +114,12 @@ const OrderHistory = () => {
           <div className="-mx-4 mt-auto z-10 max-w-[480px] w-full">
             <div className="fixed bottom-[84px] left-1/2 -translate-x-1/2 w-full max-w-[480px] bg-main rounded-t-2xl p-5 text-white z-50">
               <div className="w-full justify-between flex font-bold text-lg">
-                {false ? (
+                {hasFinished ? (
                   <>
                     <p>
                       메뉴가 완성되었어요!
                       <br />
-                      픽업하러 매장으로 와 주세요.
+                      전달자가 메뉴와 함께 출발했어요.
                     </p>
                     <CircleCheckBig size={27} className="self-end" />
                   </>

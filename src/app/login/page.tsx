@@ -42,20 +42,20 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="flex flex-col w-full min-h-screen pt-20 py-10">
+    <div className="relative flex flex-col w-full min-h-screen pt-20 py-10">
       <Image
         src={"/Ellipse-6.svg"}
         alt="bg"
         width={200}
         height={200}
-        className="absolute top-0 right-0"
+        className="absolute top-0 -right-4"
       />
       <Image
         src={"/Ellipse-7.svg"}
         alt="bg"
         width={100}
         height={100}
-        className="absolute top-0 right-0"
+        className="absolute top-0 -right-4"
       />
 
       <div className="flex flex-col items-start text-main">
