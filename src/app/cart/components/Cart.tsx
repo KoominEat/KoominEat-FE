@@ -47,7 +47,7 @@ const Cart = () => {
   const menuTotal = cartItems.reduce((sum, item) => sum + item.price, 0);
 
   return (
-    <div className="h-screen">
+    <div className="h-[calc(100vh-84px)] flex flex-col">
       <Header title="장바구니" />
 
       <div className="flex-1 overflow-y-auto">
