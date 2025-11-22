@@ -103,8 +103,8 @@ const Main = () => {
               key={pin.locationId}
               src="/pin.png"
               alt={pin.name}
-              width={30}
-              height={30}
+              width={40}
+              height={40}
               className="absolute cursor-pointer"
               style={{ top: pin.top, left: pin.left }}
               onClick={() => handlePinClick(pin.locationId)}
