@@ -9,3 +9,8 @@ export const login = async () => {
   const res = await api.post("/auth/login");
   return res.data;
 };
+
+export const getUserInfo = async () => {
+  const res = await api.get("/auth/getUser");
+  return res.data;
+};
