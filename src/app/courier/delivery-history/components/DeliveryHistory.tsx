@@ -1,4 +1,10 @@
+"use client";
+
 import Header from "@/components/Header";
+import {
+  DeliveryRequest,
+  getDeliveryRequests,
+} from "@/lib/api/delivery/delivery";
 import { cn } from "@/lib/utils";
 import {
   CircleCheck,
@@ -6,275 +12,37 @@ import {
   LoaderCircle,
   MapPin,
 } from "lucide-react";
-
-export const deliveredList = [
-  {
-    deliveryId: 12,
-    status: "READY",
-    order: {
-      orderId: 101,
-      status: "FINISHED",
-      totalPrice: 4500,
-      orderItemResponses: [
-        {
-          menuItemResponse: {
-            menuId: 1,
-            name: "아메리카노",
-            price: 4500,
-            image: "/americano.png",
-          },
-          quantity: 1,
-        },
-      ],
-      orderType: "DELIVERY",
-      storeResponse: {
-        storeId: 1,
-        name: "예술관 카페",
-        location: "예술관 1층",
-      },
-      userResponse: {
-        id: 301,
-        name: "김민수",
-      },
-    },
-    deliveryUser: {
-      id: 0,
-      name: "string",
-    },
-    destination: "예술관 302호",
-    message: "빨리 부탁드립니다!",
-    estimatedTime: 3,
-  },
-
-  {
-    deliveryId: 13,
-    status: "READY",
-    order: {
-      orderId: 102,
-      status: "FINISHED",
-      totalPrice: 7900,
-      orderItemResponses: [
-        {
-          menuItemResponse: {
-            menuId: 2,
-            name: "치즈버거 세트",
-            price: 7900,
-            image: "/burger.png",
-          },
-          quantity: 1,
-        },
-      ],
-      orderType: "DELIVERY",
-      storeResponse: {
-        storeId: 2,
-        name: "공학관 매점",
-        location: "제1공학관 1층",
-      },
-      userResponse: {
-        id: 302,
-        name: "박지현",
-      },
-    },
-    deliveryUser: {
-      id: 0,
-      name: "string",
-    },
-    destination: "공학관 512호",
-    message: "문 앞에 두고 연락 주세요.",
-    estimatedTime: 5,
-  },
-
-  {
-    deliveryId: 14,
-    status: "FINISHED",
-    order: {
-      orderId: 103,
-      status: "FINISHED",
-      totalPrice: 8000,
-      orderItemResponses: [
-        {
-          menuItemResponse: {
-            menuId: 3,
-            name: "카페라떼",
-            price: 4800,
-            image: "/latte.png",
-          },
-          quantity: 1,
-        },
-        {
-          menuItemResponse: {
-            menuId: 4,
-            name: "크루아상",
-            price: 3200,
-            image: "/croissant.png",
-          },
-          quantity: 1,
-        },
-      ],
-      orderType: "DELIVERY",
-      storeResponse: {
-        storeId: 3,
-        name: "그린커피",
-        location: "도서관 1층",
-      },
-      userResponse: {
-        id: 303,
-        name: "이서준",
-      },
-    },
-    deliveryUser: {
-      id: 0,
-      name: "string",
-    },
-    destination: "인문관 204호",
-    message: "조심히 가져다 주세요 🙂",
-    estimatedTime: 4,
-  },
-
-  {
-    deliveryId: 14,
-    status: "FINISHED",
-    order: {
-      orderId: 103,
-      status: "FINISHED",
-      totalPrice: 8000,
-      orderItemResponses: [
-        {
-          menuItemResponse: {
-            menuId: 3,
-            name: "카페라떼",
-            price: 4800,
-            image: "/latte.png",
-          },
-          quantity: 1,
-        },
-        {
-          menuItemResponse: {
-            menuId: 4,
-            name: "크루아상",
-            price: 3200,
-            image: "/croissant.png",
-          },
-          quantity: 1,
-        },
-      ],
-      orderType: "DELIVERY",
-      storeResponse: {
-        storeId: 3,
-        name: "그린커피",
-        location: "도서관 1층",
-      },
-      userResponse: {
-        id: 303,
-        name: "이서준",
-      },
-    },
-    deliveryUser: {
-      id: 0,
-      name: "string",
-    },
-    destination: "인문관 204호",
-    message: "조심히 가져다 주세요 🙂",
-    estimatedTime: 4,
-  },
-
-  //   {
-  //     deliveryId: 14,
-  //     status: "FINISHED",
-  //     order: {
-  //       orderId: 103,
-  //       status: "FINISHED",
-  //       totalPrice: 8000,
-  //       orderItemResponses: [
-  //         {
-  //           menuItemResponse: {
-  //             menuId: 3,
-  //             name: "카페라떼",
-  //             price: 4800,
-  //             image: "/latte.png",
-  //           },
-  //           quantity: 1,
-  //         },
-  //         {
-  //           menuItemResponse: {
-  //             menuId: 4,
-  //             name: "크루아상",
-  //             price: 3200,
-  //             image: "/croissant.png",
-  //           },
-  //           quantity: 1,
-  //         },
-  //       ],
-  //       orderType: "DELIVERY",
-  //       storeResponse: {
-  //         storeId: 3,
-  //         name: "그린커피",
-  //         location: "도서관 1층",
-  //       },
-  //       userResponse: {
-  //         id: 303,
-  //         name: "이서준",
-  //       },
-  //     },
-  //     deliveryUser: {
-  //       id: 0,
-  //       name: "string",
-  //     },
-  //     destination: "인문관 204호",
-  //     message: "조심히 가져다 주세요 🙂",
-  //     estimatedTime: 4,
-  //   },
-
-  //   {
-  //     deliveryId: 14,
-  //     status: "FINISHED",
-  //     order: {
-  //       orderId: 103,
-  //       status: "FINISHED",
-  //       totalPrice: 8000,
-  //       orderItemResponses: [
-  //         {
-  //           menuItemResponse: {
-  //             menuId: 3,
-  //             name: "카페라떼",
-  //             price: 4800,
-  //             image: "/latte.png",
-  //           },
-  //           quantity: 1,
-  //         },
-  //         {
-  //           menuItemResponse: {
-  //             menuId: 4,
-  //             name: "크루아상",
-  //             price: 3200,
-  //             image: "/croissant.png",
-  //           },
-  //           quantity: 1,
-  //         },
-  //       ],
-  //       orderType: "DELIVERY",
-  //       storeResponse: {
-  //         storeId: 3,
-  //         name: "그린커피",
-  //         location: "도서관 1층",
-  //       },
-  //       userResponse: {
-  //         id: 303,
-  //         name: "이서준",
-  //       },
-  //     },
-  //     deliveryUser: {
-  //       id: 0,
-  //       name: "string",
-  //     },
-  //     destination: "인문관 204호",
-  //     message: "조심히 가져다 주세요 🙂",
-  //     estimatedTime: 4,
-  //   },
-];
+import { useEffect, useState } from "react";
 
 const DeliveredHistory = () => {
-  const hasPreparing = deliveredList.some(
+  const [requests, setRequests] = useState<DeliveryRequest[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchRequests = async () => {
+      try {
+        const data = await getDeliveryRequests();
+        setRequests(data);
+      } catch (err) {
+        console.error("전달 요청 리스트 로딩 실패:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchRequests();
+  }, []);
+
+  if (loading) {
+    return (
+      <div>
+        <Header title="전달 요청 리스트" />
+        <p className="text-center mt-10 text-gray-500">불러오는 중...</p>
+      </div>
+    );
+  }
+
+  const hasPreparing = requests.some(
     (delivery) => delivery.status === "PREPARING"
   );
 
@@ -288,7 +56,7 @@ const DeliveredHistory = () => {
             "w-full mt-5 h-[calc(100vh-84px-94px-100px)] overflow-y-auto"
           )}
         >
-          {deliveredList.map((delivery, index) => {
+          {requests.map((delivery, index) => {
             const store = delivery.order.storeResponse;
             const user = delivery.order.userResponse;
             const menus = delivery.order.orderItemResponses;
@@ -311,7 +79,7 @@ const DeliveredHistory = () => {
                     </p>
                     <p className="text-[14px] text-gray-g6 flex items-center gap-0.5">
                       <MapPin size={15} />
-                      {store.location}
+                      {store.locationName}
                     </p>
                   </div>
 
