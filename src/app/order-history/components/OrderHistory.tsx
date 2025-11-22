@@ -47,45 +47,55 @@ const OrderHistory = () => {
             "w-full mt-5 h-[calc(100vh-84px-94px-100px)] overflow-y-auto"
           )}
         >
-          {orders.map((order, index) => (
-            <div
-              key={order.orderId}
-              className="flex justify-between items-start px-4 py-4 border rounded-2xl mb-2"
-            >
-              <div>
-                <div className="flex gap-2 mb-2">
-                  <p className="text-[14px] text-gray-g6 font-bold">
-                    {order.storeResponse.name}
-                  </p>
-                  <p className="text-[14px] text-gray-g6 flex items-center ">
-                    <MapPin size={14} />
-                    {order.storeResponse.locationName}
+          {orders.length === 0 ? (
+            <div className="flex flex-col items-center justify-center h-full text-gray-400">
+              <CircleCheckBig size={48} className="mb-2 text-gray-g5" />
+              <p className="text-lg font-semibold">주문 내역이 비어 있어요</p>
+              <p className="mt-1 text-sm">
+                주문하시면 이곳에서 확인할 수 있어요.
+              </p>
+            </div>
+          ) : (
+            orders.map((order, index) => (
+              <div
+                key={order.orderId}
+                className="flex justify-between items-start px-4 py-4 border rounded-2xl mb-2"
+              >
+                <div>
+                  <div className="flex gap-2 mb-2">
+                    <p className="text-[14px] text-gray-g6 font-bold">
+                      {order.storeResponse.name}
+                    </p>
+                    <p className="text-[14px] text-gray-g6 flex items-center ">
+                      <MapPin size={14} />
+                      {order.storeResponse.locationName}
+                    </p>
+                  </div>
+
+                  <h3 className="text-lg font-semibold text-gray-g7">
+                    {(() => {
+                      const names = order.orderItemResponses.map(
+                        (item) => item.menuItemResponse.name
+                      );
+
+                      if (names.length === 1) return names[0];
+                      return `${names[0]} 외 ${names.length - 1}개`;
+                    })()}
+                  </h3>
+
+                  <p className="text-gray-g6 font-semibold">
+                    {order.totalPrice}원
                   </p>
                 </div>
 
-                <h3 className="text-lg font-semibold text-gray-g7">
-                  {(() => {
-                    const names = order.orderItemResponses.map(
-                      (item) => item.menuItemResponse.name
-                    );
-
-                    if (names.length === 1) return names[0];
-                    return `${names[0]} 외 ${names.length - 1}개`;
-                  })()}
-                </h3>
-
-                <p className="text-gray-g6 font-semibold">
-                  {order.totalPrice}원
-                </p>
+                <div className="text-right">
+                  <p className="text-main font-bold px-6 py-2 bg-[#E7F6F1] rounded-full">
+                    {order.orderType === "PICKUP" ? "픽업" : "전달"}
+                  </p>
+                </div>
               </div>
-
-              <div className="text-right">
-                <p className="text-main font-bold px-6 py-2 bg-[#E7F6F1] rounded-full">
-                  {order.orderType === "PICKUP" ? "픽업" : "전달"}
-                </p>
-              </div>
-            </div>
-          ))}
+            ))
+          )}
         </div>
 
         {/* 주문 진행 상황 */}
