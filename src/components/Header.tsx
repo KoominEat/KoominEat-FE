@@ -3,14 +3,15 @@
 
 import { cn } from "@/lib/utils";
 import { ChevronLeft, ShoppingCart } from "lucide-react";
+import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
-import { useLayoutEffect, useState } from "react";
+import { useLayoutEffect, useState, ReactNode } from "react";
 
 const Header = ({
   title,
   itemCount = 0,
 }: {
-  title: string;
+  title: ReactNode;
   itemCount?: number;
 }) => {
   const pathname = usePathname();
@@ -21,13 +22,12 @@ const Header = ({
     setHydrated(true);
   }, []);
 
-  // SSR/CSR mismatch 방지
   if (!hydrated) {
     return (
       <div className="relative flex items-center h-[58px] mt-4">
-        <h1 className="absolute left-1/2 -translate-x-1/2 text-[#26282B] text-lg font-bold">
+        <div className="absolute left-1/2 -translate-x-1/2 text-[#26282B] text-lg font-bold">
           {title}
-        </h1>
+        </div>
       </div>
     );
   }
@@ -46,9 +46,9 @@ const Header = ({
         onClick={() => router.back()}
       />
 
-      <h1 className="absolute left-1/2 -translate-x-1/2 text-[#26282B] text-lg font-bold">
+      <div className="absolute left-1/2 -translate-x-1/2 text-[#26282B] text-lg font-bold">
         {title}
-      </h1>
+      </div>
 
       <div
         className={cn(

@@ -12,7 +12,9 @@ const Main = () => {
 
   return (
     <div className="flex flex-col gap-3">
-      <Header title="로고" />
+      <Header
+        title={<Image src="/logo.png" alt="Logo" width={34} height={40} />}
+      />
 
       <div className="flex">
         <span
