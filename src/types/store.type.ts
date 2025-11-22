@@ -24,8 +24,23 @@ export const getCategoryId = (name: string): number | undefined => {
 };
 
 export interface MenuItem {
-  id: number;
+  menuId: number;
   name: string;
   price: number;
   image: string;
+}
+
+export interface StoreDetail extends Store {
+  menuItems: MenuItem[];
+}
+
+export interface StoreInfo {
+  image: string;
+  storeId: number;
+  name: string;
+  locationId: number;
+  locationName: string;
+  categoryId: number;
+  categoryName: string;
+  backgroundImage: string;
 }

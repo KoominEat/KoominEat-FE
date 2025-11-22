@@ -3,7 +3,7 @@
 
 import { cn } from "@/lib/utils";
 import { ChevronLeft, ShoppingCart } from "lucide-react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useLayoutEffect, useState } from "react";
 
 const Header = ({
@@ -15,6 +15,7 @@ const Header = ({
 }) => {
   const pathname = usePathname();
   const [hydrated, setHydrated] = useState(false);
+  const router = useRouter();
 
   useLayoutEffect(() => {
     setHydrated(true);
@@ -42,6 +43,7 @@ const Header = ({
             ? ""
             : "invisible"
         )}
+        onClick={() => router.back()}
       />
 
       <h1 className="absolute left-1/2 -translate-x-1/2 text-[#26282B] text-lg font-bold">
@@ -58,6 +60,7 @@ const Header = ({
             ? "invisible"
             : ""
         )}
+        onClick={() => router.push("/cart")}
       >
         <ShoppingCart size={22} className="cursor-pointer" />
 

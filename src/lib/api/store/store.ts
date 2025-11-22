@@ -15,3 +15,8 @@ export const getStoreDetail = async (storeId: number) => {
   const res = await api.get(`/stores/${storeId}/menu-items`);
   return res.data.data;
 };
+
+export const getStoreInfo = async (storeId: number) => {
+  const res = await api.get(`/stores/${storeId}`);
+  return res.data.data;
+};

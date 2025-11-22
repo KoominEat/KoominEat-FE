@@ -31,7 +31,7 @@ const page = () => {
       />
 
       <div className="flex flex-col gap-3">
-        <Link href={"/"}>
+        <Link href={"/order-history"}>
           <Button variant="primary" className="w-full">
             주문 내역 보러 가기
           </Button>

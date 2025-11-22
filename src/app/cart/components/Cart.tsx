@@ -6,73 +6,100 @@ import Header from "@/components/Header";
 import { cn } from "@/lib/utils";
 import { MapPin } from "lucide-react";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import LayerPopup from "@/components/common/LayerPopup";
-
-export const sampleStore = {
-  name: "카페미르",
-  location: "북악관 1층",
-  menu: [
-    {
-      name: "아메리카노",
-      price: 4500,
-      image: "/iced-americano.png",
-    },
-    {
-      name: "카페라떼",
-      price: 5500,
-      image: "/cafe-latte.png",
-    },
-  ],
-};
+import { CartItem } from "@/types/cart.type";
+import { getStoreInfo } from "@/lib/api/store/store";
+import { StoreInfo } from "@/types/store.type";
+import { useRouter } from "next/navigation";
 
 const Cart = () => {
   const [way, setWay] = useState<"pickup" | "delivery" | null>(null);
   const [location, setLocation] = useState("");
   const [message, setMessage] = useState("");
   const [open, setOpen] = useState(false);
+  const router = useRouter();
+
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [storeId, setStoreId] = useState<number | null>(null);
+  const [info, setInfo] = useState<StoreInfo | null>(null);
+
+  useEffect(() => {
+    const saved = sessionStorage.getItem("cart");
+    if (!saved) return;
+
+    const obj = JSON.parse(saved) as { [key: string]: CartItem };
+    const list = Object.values(obj);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps, react-hooks/set-state-in-effect
+    setCartItems(list);
+
+    if (list.length > 0) {
+      const id = list[0].storeId;
+      setStoreId(id);
+
+      // 매장 정보 불러오기
+      getStoreInfo(id).then((data) => setInfo(data));
+    }
+  }, []);
+
+  const menuTotal = cartItems.reduce((sum, item) => sum + item.price, 0);
 
   return (
     <div>
       <Header title="장바구니" />
 
-      <div>
-        <div className="flex gap-2 mb-3 mt-4">
-          <h2 className="text-xl font-bold">{sampleStore.name}</h2>
-          <p className="flex items-center gap-0.5 text-gray-g6">
-            <MapPin size={18} /> {sampleStore.location}
-          </p>
+      {/* 장바구니 비었을 때 */}
+      {cartItems.length === 0 && (
+        <div className="text-center mt-20 text-gray-500">
+          장바구니가 비어 있습니다.
         </div>
+      )}
 
-        <div className="w-full">
-          {sampleStore.menu.map((item, index) => (
-            <div
-              key={index}
-              className="flex justify-between items-center px-4 py-3 border rounded-2xl mb-2"
-            >
-              <div>
-                <h3 className="text-lg font-semibold mb-0.5 text-gray-g7">
-                  {item.name}
-                </h3>
-                <p className="text-gray-600 text-sm flex gap-1 items-center font-semibold">
-                  {item.price}원
-                </p>
+      {/* 장바구니 있을 때 */}
+      {cartItems.length > 0 && (
+        <div>
+          {/* 매장 정보 */}
+          <div className="flex gap-2 mb-3 mt-4">
+            <h2 className="text-xl font-bold">{info?.name}</h2>
+            <p className="flex items-center gap-0.5 text-gray-g6">
+              <MapPin size={16} /> {info?.locationName}
+            </p>
+          </div>
+
+          {/* 아이템 목록 */}
+          <div className="w-full">
+            {cartItems.map((item) => (
+              <div
+                key={item.menuId}
+                className="flex justify-between items-center px-4 py-3 border rounded-2xl mb-2"
+              >
+                <div>
+                  <h3 className="text-lg font-semibold mb-0.5 text-gray-g7">
+                    {item.name}
+                  </h3>
+                  <p className="text-gray-600 text-sm flex gap-1 items-center font-semibold">
+                    {item.price}원
+                  </p>
+                </div>
+
+                <Image
+                  src={item.image}
+                  alt={`item image`}
+                  width={40}
+                  height={40}
+                />
               </div>
-
-              <Image
-                src={item.image}
-                alt={`item image`}
-                width={40}
-                height={40}
-              />
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
-      </div>
+      )}
 
+      {/* 수령 방법 */}
       <div>
         <h2 className="text-xl font-bold mb-3">수령 방법을 선택해 주세요</h2>
+
         <div
           className={cn(
             "flex justify-between items-center px-4 py-3 border rounded-2xl hover:bg-gray-100 cursor-pointer mb-2",
@@ -89,12 +116,7 @@ const Cart = () => {
             </p>
           </div>
 
-          <Image
-            src="/pick-up.png"
-            alt={`pickup image`}
-            width={40}
-            height={40}
-          />
+          <Image src="/pick-up.png" alt="pickup image" width={40} height={40} />
         </div>
 
         <div
@@ -124,6 +146,7 @@ const Cart = () => {
         </div>
       </div>
 
+      {/* 전달하기 선택 시 입력창 */}
       <AnimatePresence>
         {way === "delivery" && (
           <motion.div
@@ -152,19 +175,19 @@ const Cart = () => {
         )}
       </AnimatePresence>
 
+      {/* 결제 금액 */}
       <div>
         <h2 className="text-xl font-bold mb-3 mt-4">
           결제 금액을 선택해 주세요
         </h2>
+
         <div className="w-full flex justify-between items-center px-4 py-3 border rounded-2xl mb-2">
           <div className="w-full">
             <div className="flex justify-between w-full">
               <p className="text-gray-600 flex gap-1 items-center font-semibold">
                 메뉴 금액
               </p>
-              <p className="font-medium text-gray-g6">
-                {sampleStore.menu.reduce((sum, item) => sum + item.price, 0)}원
-              </p>
+              <p className="font-medium text-gray-g6">{menuTotal}원</p>
             </div>
 
             <div className="flex justify-between w-full mt-1">
@@ -181,19 +204,14 @@ const Cart = () => {
                 결제 예정 금액
               </h3>
               <p className="font-semibold text-lg text-gray-g6">
-                {way === "delivery"
-                  ? sampleStore.menu.reduce(
-                      (sum, item) => sum + item.price,
-                      0
-                    ) + 300
-                  : sampleStore.menu.reduce((sum, item) => sum + item.price, 0)}
-                원
+                {way === "delivery" ? menuTotal + 300 : menuTotal}원
               </p>
             </div>
           </div>
         </div>
       </div>
 
+      {/* 하단 버튼 */}
       <div className="h-[104px] -mx-4 relative z-20 shadow-[0_-4px_10px_rgba(0,0,0,0.08)] mt-5">
         <div className="px-4">
           <Button
@@ -212,12 +230,31 @@ const Cart = () => {
         </div>
       </div>
 
+      {/* 주문 팝업 */}
       <LayerPopup
         open={open}
         onOpenChange={setOpen}
         title="1분 내로 전달자와 매칭되지 않으면 자동으로 픽업으로 전환돼요."
       >
-        <Button className="w-full" onClick={() => setOpen(false)}>
+        <Button
+          className="w-full"
+          onClick={() => {
+            if (way) {
+              sessionStorage.setItem("order_way", way);
+            }
+
+            if (way === "delivery") {
+              sessionStorage.setItem("delivery_location", location);
+              sessionStorage.setItem("delivery_message", message);
+            } else {
+              sessionStorage.removeItem("delivery_location");
+              sessionStorage.removeItem("delivery_message");
+            }
+
+            setOpen(false);
+            router.push("/pay");
+          }}
+        >
           결제 계속하기
         </Button>
       </LayerPopup>
