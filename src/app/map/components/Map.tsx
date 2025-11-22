@@ -50,7 +50,7 @@ const Map = () => {
     setOpen(true);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchParams]);
+  }, []); // seachparams 제거
 
   // category가 변할 때마다 API 호출
   useEffect(() => {
